@@ -1,0 +1,12 @@
+button {
+font-size:10px;
+ background-color: blue;
+}
+
+.przyciski{
+  border: 5px solid red;
+}
+
+#pierwszy{
+  border: double;
+}

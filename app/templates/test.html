@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+
+<!-- <link rel="stylesheet" href="test.css">-->
+ <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/test.css') }}">
+ <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+ <script type="text/javascript" charset="utf-8">
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect', function() {
+        socket.emit('my_event', {data: 'I\'m connected!'});
+    });
+</script>
+<style>
+button {
+ font-size: 50px;
+}
+</style>
+</head>
+<html>
+<body>
+
+<h2>The Button Element</h2>
+<button type="button" onclick=sendMsg()>Click Me!</button>
+<button class="przyciski duze wcisniety" type="button" onclick=dupa(this.id)>Click Me!</button>
+<div Id="pierwszy" class="przyciski">button</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!--<script src="myscript.js"></script> -->
+<script type="text/javascript" src="{{ url_for('static', filename='js/myscript.js') }}"></script>
+</body>
+</html>

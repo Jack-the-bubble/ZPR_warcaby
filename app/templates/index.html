@@ -1,0 +1,56 @@
+	<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Ultimate Tic Tac Toe
+    </title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chat.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/game.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/score.css') }}">
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
+</head>
+
+<body>
+    <div id="welcome-info">
+        Waiting for players...
+    </div>
+    <div id="game">
+        <div class="chatbox box">
+            <div class="chatlogs">
+            </div>
+            <div class="chat-form">
+                <textarea id="textfield" placeholder="Type in your message"></textarea>
+                <button id="sender">Send</button>
+            </div>
+        </div>
+        <div class="box gamebox">
+            <table id="globalboard">
+
+            </table>
+        </div>
+        <div class="box scorebox">
+            <div class="score">
+                <div class="scorer-img">
+                    <img src="/static/img/X.png">
+                </div>
+                <div class="score-x">
+                    0
+                </div>
+            </div>
+            <div class="score">
+                <div class="scorer-img">
+                    <img src="/static/img/O.png">
+                </div>
+                <div class="score-o">
+                    0
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
