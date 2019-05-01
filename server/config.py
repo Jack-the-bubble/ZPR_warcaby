@@ -18,8 +18,7 @@ playNowHere = 1
 
 @app.route('/')
 def sessions():
-#    return render_template('index.html', async_mode=socketio.async_mode)
-	return render_template('w3_test.html', async_mode=socketio.async_mode)
+	return render_template('w3_test2.html', async_mode=socketio.async_mode)
 
 
 @socketio.on('clickedField', namespace='/test')
@@ -52,6 +51,11 @@ def handleDisconnect():
 @socketio.on('message')
 def handle_message(message):
 	print('received message: '+ message)
+	
+@socketio.on('moveMsg')
+def move_on_server(data):
+	emit('moveResp', 'received')
+	
 	
 @socketio.on('myMsg')
 def send_response(message):
