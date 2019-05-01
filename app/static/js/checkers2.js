@@ -45,17 +45,15 @@ window.onload = function() {
       this.element.removeClass('selected');
       if(!Board.isValidPlacetoMove(tile.position[0], tile.position[1])) return false;
       //make sure piece doesn't go backwards if it's not a king
-      if(this.player == 1 && this.king == false) {
+/*      if(this.player == 1 && this.king == false) {
         if(tile.position[0] < this.position[0]){ 
-        		if(dist(this.position[0], this.position[1], piece.position[0], piece.position[1]) == Math.sqrt(2)) {console.log("regular piece capturing")}
-				else {return false;}
+        return false;
         }
       } else if (this.player == 2 && this.king == false) {
          if(tile.position[0] > this.position[0]) {
-				if(dist(this.position[0], this.position[1], piece.position[0], piece.position[1]) == Math.sqrt(2)) {console.log("regular piece capturing")}
-				else {return false;}
+         	return false;
 	  		}
-      }
+      }*/
       //remove the mark from Board.board and put it in the new spot
       Board.board[this.position[0]][this.position[1]] = 0;
       Board.board[tile.position[0]][tile.position[1]] = this.player;
@@ -68,6 +66,10 @@ window.onload = function() {
         this.makeKing();
       return true;
     };
+    
+    this.move_regular = function () {
+		    
+    }
 
     //tests if piece can jump anywhere
     this.canJumpAny = function () {
@@ -78,9 +80,19 @@ window.onload = function() {
         return true;
       } return false;
     };
-
+	
+	this.can_jump_any_regular = function(){
+		if (this.can_opponent_jump_regular([this.position[0]+2, this.position[1]+2]) ||
+			this.can_opponent_jump_regular([this.position[0]+2, this.position[1]-2]) ||
+			this.can_opponent_jump_regular([this.position[0]-2, this.position[1]+2]) ||
+			this.can_opponent_jump_regular([this.position[0]-2, this.position[1]-2])) {
+				console.log("found another to capture");
+			return true;
+		}	
+		return false;
+	};
     //tests if an opponent jump can be made to a specific place
-    this.canOpponentJump = function(newPosition) {
+   this.canOpponentJump = function(newPosition) {
       //find what the displacement is
       var dx = newPosition[1] - this.position[1];
       var dy = newPosition[0] - this.position[0];
@@ -110,16 +122,107 @@ window.onload = function() {
       }
       return false;
     };
+    
+	this.can_opponent_jump_regular = function (newPosition) {
+		//must be in bounds
+      if(newPosition[0] > 7 || newPosition[1] > 7 || newPosition[0] < 0 || newPosition[1] < 0) return false;
+//      check if newPosition is taken
+		for (k of pieces) {
+//			if you want to go to place where a piece already is - wrong
+			if(k.position[0] == newPosition[0] && k.position[1] == newPosition[1]) {
+//				console.log("there is a piece already");
+				return false;
+			}
+		}
+      console.log("looking for piece to capture");
+//      checking bottom 
+      if (newPosition[0] > this.position[0]){
+      	console.log("looking for bottom");
+//			checking right corner
+			if (newPosition[1] > this.position[1]) {
+//				look for pieces that may be there
+				for (index in pieces) {
+					if (pieces[index].position[0] == (this.position[0]+1) && pieces[index].position[1] == (this.position[1]+1)) {
+						if (this.player != pieces[index].player) {
+							console.log("found in bottom right corner")
+							return pieces[index];
+						}
+					}
+				}
+			}
+			
+//			checking left corner
+			if (newPosition[1] < this.position[1]) {
+//				look for pieces that may be there
+				for (index in pieces) {
+					if (pieces[index].position[0] == (this.position[0]+1) && pieces[index].position[1] == (this.position[1]-1)) {
+						if (this.player != pieces[index].player) {
+							console.log("found in bottom left corner")
+							return pieces[index];
+						}
+					}
+				}
+			}
+			
+      } 
+//      checking top 
+      else if (newPosition[0] < this.position[0]){
+      	console.log("looking for top");
+//			checking right corner
+			if (newPosition[1] > this.position[1]) {
+				console.log("looking for right");
+//				look for pieces that may be there
+				for (index in pieces) {
+					if (pieces[index].position[0] == (this.position[0]-1) && pieces[index].position[1] == (this.position[1]+1)) {
+						if (this.player != pieces[index].player) {
+							console.log("found in top right corner")
+							return pieces[index];
+						}
+					}
+				}
+			}
+			
+//			checking left corner
+			if (newPosition[1] < this.position[1]) {
+				console.log("looking for left");
+//				look for pieces that may be there
+				for (index in pieces) {
+					if (pieces[index].position[0] == (this.position[0]-1) && pieces[index].position[1] == (this.position[1]-1)) {
+						if (this.player != pieces[index].player) {
+							console.log("found in top left corner")
+							return pieces[index];
+						}
+					}
+				}
+			}
+			
+      } 
+		return false;
+	}
 
-    this.opponentJump = function (tile) {
-      var pieceToRemove = this.canOpponentJump(tile.position);
+/*   this.opponentJump = function (tile) {
+//      var pieceToRemove = this.canOpponentJump(tile.position);
       //if there is a piece to be removed, remove it
       if(pieceToRemove) {
         pieces[pieceIndex].remove();
         return true;
       }
       return false;
-    };
+    };*/
+    
+    this.opponent_jump_regular = function (tile) {
+//    	console.log("checking for opponent to remove");		
+      //var pieceToRemove = this.canOpponentJump(tile.position);
+      var pieceToRemove = this.can_opponent_jump_regular(tile.position);
+      //if there is a piece to be removed, remove it
+      if(pieceToRemove) {
+        pieces[index].remove();
+        console.log('removed');
+        return true;
+      }
+      console.log('didn\'t move - no opponent');
+      return false;
+    };    
 
     this.remove = function () {
       //remove it and delete it from the gameboard
@@ -148,7 +251,7 @@ window.onload = function() {
     //position in gameboard
     this.position = position;
     //if tile is in range from the piece
-    this.inRange = function(piece) {
+/*    this.inRange = function(piece) {
       for(k of pieces)
         if(k.position[0] == this.position[0] && k.position[1] == this.position[1]) return 'wrong';
 //      if(!piece.king && piece.player==1 && this.position[0] < piece.position[0]) return 'wrong';
@@ -160,10 +263,47 @@ window.onload = function() {
         //jump move
         return 'jump';
       }
-      
-//      dopisz dla damki!!!!
       else { return "wrong";}
-    };
+    };*/
+    
+    
+    this.inRange2 = function(piece){
+			if (piece.king == false) {
+//				console.log("checking range of normal piece");
+				for (k of pieces) {
+//					if you want to go to place where a piece already is - wrong
+					if(k.position[0] == this.position[0] && k.position[1] == this.position[1]) {
+//						console.log("there is a piece already");
+						return 'wrong';
+					}
+				}
+//				if you want to jump
+				if(dist(this.position[0], this.position[1], piece.position[0], piece.position[1]) == 2*Math.sqrt(2)) {
+//        			console.log("you want to jump");
+        			return 'jump';
+      		}
+//      		if you want to make regular move forward
+      		else if (piece.player == 1 && this.position[0] > piece.position[0]) {
+					if (dist(this.position[0], this.position[1], piece.position[0], piece.position[1]) == Math.sqrt(2)) {
+//						console.log("regular move for player 1");
+						return 'regular';
+     				}
+      		}
+      		else if (piece.player == 2 && this.position[0] < piece.position[0]) {
+					if (dist(this.position[0], this.position[1], piece.position[0], piece.position[1]) == Math.sqrt(2)) {
+//						console.log("regular move for player 2");
+						return 'regular';
+     				}
+      		}
+      		else {
+      			return 'wrong';
+      		}
+			}
+			else {
+				console.log("checking range of king");
+				return 'long_jump';
+			}			
+    }
   }
 
   //Board object - controls logistics of game
@@ -315,17 +455,20 @@ window.onload = function() {
       //find the piece being selected
       var piece = pieces[$('.selected').attr("id")];
       //check if the tile is in range from the object
-      var inRange = tile.inRange(piece);
+//      var inRange = tile.inRange(piece);
+		var inRange = tile.inRange2(piece);
       if(inRange != 'wrong') {
         //if the move needed is jump, then move it but also check if another move can be made (double and triple jumps)
         if(inRange == 'jump') {
-          if(piece.opponentJump(tile)) {
+//        	   if(piece.opponentJump(tile)) {
+          if(piece.opponent_jump_regular(tile)) {
+          	console.log("jump - moving piece");
             piece.move(tile);
-            
+            console.log("moved - checking for continuous capture");
 //				wyslac wiadomosc o ruchu 
-				sendMove(piece.player, piece.position, tile.position);           
+//				sendMove(piece.player, piece.position, tile.position);           
             
-            if(piece.canJumpAny()) {
+            if(piece.can_jump_any_regular()) {
                // Board.changePlayerTurn(); //change back to original since another turn can be made
                piece.element.addClass('selected');
                // exist continuous jump, you are not allowed to de-select this piece or select other pieces
@@ -343,7 +486,7 @@ window.onload = function() {
             piece.move(tile);
             
 //				wyslac wiadomosc o ruchu            
-				sendMove(piece.player, piece.position, tile.position);               
+//				sendMove(piece.player, piece.position, tile.position);               
             
             Board.changePlayerTurn()
             
