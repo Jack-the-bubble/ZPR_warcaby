@@ -7,6 +7,12 @@ Technologie wykorzystywane w projekcie:
 - JavaScript
 
 ## Budowanie i uruchamianie aplikacji
+W celu uruchomienia aplikacji należy:
+1. zainstalować odpowiednie biblioteki określone w punkcie ###Wymagania wstępne (skrypty do instalacji znajdują się w folderze /scripts)
+2. wejść do folderu /server
+3. uruchomić serwer (python3 run.py)
+4. w przeglądarce otworzyć stronę pod adresem localhost:5000
+
 
 ### Wymagania wstępne
 - **Windows**
@@ -22,8 +28,6 @@ Technologie wykorzystywane w projekcie:
   3. libboost-all-dev (boost), scons, python3-pip, Flask, flask-socketio, eventlet, pytest 
 
 ### Kompilacja
-Należy wywołać z poziomu głównego katalogu projektu:
-**sconst**
 
 ### Czyszczenie plików utworzonych przez SConst
 Należy wywołać z poziomu głównego katalogu projektu:
