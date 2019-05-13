@@ -443,6 +443,7 @@ window.onload = function() {
   };
   
   socket.on("moveResp", function (data) {console.log(data)})
+  
 
   //move piece when tile is clicked
   $('.tile').on("click", function () {
@@ -502,4 +503,3 @@ window.onload = function() {
   
 
 }
-

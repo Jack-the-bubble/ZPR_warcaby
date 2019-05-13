@@ -1,0 +1,15 @@
+algorytm ruchu pionka:
+
+//sprawdź, czy gracz wykonujący ruch ma bicie
+for (pionek in pionki){
+	if (pionek.player = playerTurn && pionek.king == false){
+		if(przeciwnicy_w_zasięgu(pionek)) {
+			return 		
+		}
+	}
+}
+
+inRange - sprawdza, czy docelowe pole jest w zasięgu pionka (zwraca czy chcemy się ruszyć normalnie lub przeskoczyć pionka bądź błąd jeśli chcemy pójść do tyłu lub za daleko do przodu) 
+	- nie sprawdza żadnych możliwości bicia albo obecności innych pionków
+	
+opponentJump - jeśli między początkową a końcową pozycją jest pionek przeeciwnika, usuń go 

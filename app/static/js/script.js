@@ -37,7 +37,7 @@ window.onload = function() {
     //makes object a king
     this.king = false;
     this.makeKing = function () {
-      this.element.css("backgroundImage", "url('img/king"+this.player+".png')");
+      this.element.css("backgroundImage", "url('/img/king"+this.player+".png')");
       this.king = true;
     }
     //moves the piece
@@ -161,7 +161,7 @@ window.onload = function() {
   var Board = {
     board: gameBoard,
     score : { player1: 0, player2: 0},
-    playerTurn: 1,
+    playerTurn: 2,
     jumpexist: false,
     continuousjump: false,
     tilesElement: $('div.tiles'),
@@ -211,13 +211,13 @@ window.onload = function() {
     changePlayerTurn: function () {
       if(this.playerTurn == 1) {
         this.playerTurn = 2;
-        $('.turn').css("background", "linear-gradient(to right, transparent 50%, #BEEE62 50%)");
+        $('.turn').css("background", "linear-gradient(to right, transparent 50%, #00a700 50%)");
         this.check_if_jump_exist()
         return;
       }
       if(this.playerTurn == 2) {
         this.playerTurn = 1;
-        $('.turn').css("background", "linear-gradient(to right, #BEEE62 50%, transparent 50%)");
+        $('.turn').css("background", "linear-gradient(to right, #00a700 50%, transparent 50%)");
         this.check_if_jump_exist()
         return;
       }
